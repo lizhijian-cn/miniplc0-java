@@ -295,7 +295,8 @@ public final class Analyser {
     private void analyseExpression() throws CompileError {
         analyseItem();
         while (check(TokenType.Plus) || check(TokenType.Minus)) {
-            var instruction = new Instruction(nextIf(TokenType.Plus) != null ? Operation.ADD : Operation.SUB);
+            var tkt = next().getTokenType();
+            var instruction = new Instruction(tkt == TokenType.Plus ? Operation.ADD : Operation.SUB);
             analyseItem();
             instructions.add(instruction);
         }
@@ -327,7 +328,8 @@ public final class Analyser {
     private void analyseItem() throws CompileError {
         analyseFactor();
         while (check(TokenType.Mult) || check(TokenType.Div)) {
-            var instruction = new Instruction(nextIf(TokenType.Mult) != null ? Operation.MUL : Operation.DIV);
+            var tkt = next().getTokenType();
+            var instruction = new Instruction(tkt == TokenType.Mult ? Operation.MUL : Operation.DIV);
             analyseFactor();
             instructions.add(instruction);
         }
